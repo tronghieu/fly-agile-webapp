@@ -1,0 +1,9 @@
+{
+  "oauth" : {
+    "app_id": 1,
+    "app_secret_key": "QDVk5TPftn7xEUffKMAOrqhI5giJ2KySByswoIsj",
+    "base_url": "http://fly-agile.dev",
+    "auth": "oauth/authorize",
+    "auth_callback": "/auth_callback"
+  }
+}
