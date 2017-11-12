@@ -44,4 +44,4 @@ sagaMiddleware.run(login);
 // sagaMiddleware.run(toggleSAdminSaga)
 // sagaMiddleware.run(addStaffSaga)
 
-export default Store
+export default Store;

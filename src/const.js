@@ -5,5 +5,6 @@ export const DO_LOGIN = 'auth/DO_LOGIN';
 export const LOGOUT = 'auth/LOGOUT';
 export const AUTHENTICATED = 'auth/AUTHENTICATED';
 export const AUTH_ERROR = 'auth/ERROR';
+export const AFTER_LOGIN = 'auth/AFTER_LOGIN';
 
 //user

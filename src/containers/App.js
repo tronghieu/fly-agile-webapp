@@ -29,18 +29,6 @@ import Login from './Authen/LoginContainer';
 // import SimpleLineIcons from '../../views/Icons/SimpleLineIcons/';
 
 class App extends Component {
-  componentWillMount() {
-    console.log("This will mount");
-  }
-
-  componentDidMount() {
-    console.log("This did mount");
-  }
-
-  componentWillUnmount() {
-    console.log("This will unmount");
-  }
-
   render() {
     return (
       <div className="app">

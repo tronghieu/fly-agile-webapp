@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {
-  Container, Row, Col, CardGroup, Card, CardBody, Button, Input, InputGroup, InputGroupAddon,
-  FormFeedback, Alert
+  Container, Row, Col, CardGroup, Card, CardBody, Button, Input, InputGroup, InputGroupAddon, Alert
 } from 'reactstrap';
-import {history} from "../../utils/Store";
 import {clearError} from "../../actions/Errors";
 import {connect} from "react-redux";
 import {login, logout} from "../../actions/Auth";
 import {LoadingBar} from "react-redux-loading-bar";
+import Session from "../../utils/Session";
+import {Redirect} from "react-router-dom";
 
 class LoginContainer extends Component {
   _initState = {
@@ -19,22 +19,10 @@ class LoginContainer extends Component {
 
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
-      ...this._initState
+      ...this._initState,
     };
   };
-
-  componentWillMount () {
-    let instance = this;
-    if(document.documentMode === 11) {
-      window.onstorage = function (e) {
-        instance.setState({
-          reload: true,
-        })
-      }
-    }
-  }
 
   _handleChange = (event) => {
     let target = event.target;
@@ -82,17 +70,9 @@ class LoginContainer extends Component {
     return !(this.state.validate.hasOwnProperty(input) && this.state.validate[input].length > 0);
   };
 
-  _directToRegister = () => {
-    history.push({
-      pathname : '/register',
-      state: {from: history.location}
-    })
-  };
-
   _doLogin = () => {
     this.setState({activeLoginBtn: false});
     let valid = this._validate();
-    console.log(this.state);
     if(valid) {
       this.props.clearError();
       this.props.login(this.state.credential, this.state.password);
@@ -100,6 +80,11 @@ class LoginContainer extends Component {
   };
 
   render() {
+    if (this.props.authenticated) {
+      const { from } = this.props.location.state || { from: { pathname: '/' } };
+      return (<Redirect to={from}/>)
+    }
+
     return (
       <div className="app flex-row align-items-center">
         <LoadingBar />
@@ -163,7 +148,7 @@ class LoginContainer extends Component {
                       <h2>Sign up</h2>
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua.</p>
-                        <Button color="primary" className="mt-3 btn-round" active onClick={this._directToRegister}>Register Now!</Button>
+                        <Button color="primary" className="mt-3 btn-round" active>Register Now!</Button>
                     </div>
                   </CardBody>
                 </Card>
@@ -177,16 +162,14 @@ class LoginContainer extends Component {
   //End render
 }
 
-
-
 const mapStateToProps = (state, ownProps) => {
   return {
-    ...state,
     token: state.user.token,
     me: state.user.me,
     error: state.user.error,
-    isLoading: state.user.isLoading
-  }
+    isLoading: state.user.isLoading,
+    authenticated: Session.isAuth()
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

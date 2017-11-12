@@ -46,6 +46,7 @@
     "react-transition-group": "^2.2.1",
     "reactstrap": "^5.0.0-alpha.3",
     "redux": "^3.7.2",
+    "redux-react-router": "^1.0.0-beta3",
     "redux-saga": "^0.16.0",
     "simple-line-icons": "^2.4.1"
   },

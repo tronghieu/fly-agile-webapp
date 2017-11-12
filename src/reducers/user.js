@@ -1,11 +1,11 @@
 import Session from './../utils/Session';
-import {AUTH_ERROR, AUTHENTICATED, DO_LOGIN} from "../const";
+import {AFTER_LOGIN, AUTH_ERROR, AUTHENTICATED, DO_LOGIN} from "../const";
 
 const initialState = {
-  me: Session.getValue('user'),
+  me: Session.getValue('me'),
   token: Session.getValue('token'),
   error: null,
-  isLoading: false
+  isLoading: false,
 };
 
 export default (state = initialState, action) => {
@@ -17,14 +17,22 @@ export default (state = initialState, action) => {
         isLoading: true
       };
 
-    case AUTHENTICATED:
-      Session.set(action.payload);
+    case AFTER_LOGIN:
+      Session.set('token', action.payload);
       return {
         ...state,
-        token: action.payload.token,
-        me: action.payload.me,
+        token: action.payload,
+        error: null,
+      };
+
+    case AUTHENTICATED:
+      Session.set('me', action.payload);
+
+      return {
+        ...state,
+        me: action.payload,
         isLoading: false,
-        error: null
+        authenticated: true,
       };
 
     case AUTH_ERROR:

@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {HashRouter, Route, Switch} from 'react-router-dom';
 import { Provider } from 'react-redux';
-import Store, {history} from './utils/Store'
+import Store, {history} from './utils/Store';
+import {HashRouter, Route, Switch} from "react-router-dom";
 
 import EnsureAuthenticatedRoute from './utils/EnsureAuthenticatedRoute';
 

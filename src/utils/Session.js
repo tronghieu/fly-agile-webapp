@@ -1,9 +1,13 @@
 import Settings from './../../settings.json';
-import * as axios from "axios";
+import axios from "axios";
 
 class Session {
   static get() {
-    return JSON.parse(window.localStorage.getItem('session'));
+    let data = JSON.parse(window.localStorage.getItem('session'));
+    if (!data) {
+      data = {};
+    }
+    return data;
   };
 
   static getValue(sessionKey, def = null) {
@@ -15,8 +19,10 @@ class Session {
     return data[sessionKey];
   };
 
-  static set(sessionValue) {
-    window.localStorage.setItem('session', JSON.stringify(sessionValue))
+  static set(sessionKey, sessionValue) {
+    let data = Session.get();
+    data[sessionKey] = sessionValue;
+    window.localStorage.setItem('session', JSON.stringify(data));
   };
 
   static remove() {
@@ -49,7 +55,7 @@ class Session {
   };
 
   static isAuth() {
-    let token = Session.get('token');
+    let token = Session.getValue('token');
     if (token && token.hasOwnProperty('access_token') && token.access_token !== "") {
       return true;
     }
@@ -57,7 +63,7 @@ class Session {
   }
 
   static getAccessToken() {
-    let token = Session.get('token');
+    let token = Session.getValue('token');
     if (token && token.hasOwnProperty('access_token')) {
       return token.access_token;
     }
